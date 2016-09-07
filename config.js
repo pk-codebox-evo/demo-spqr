@@ -8,10 +8,10 @@ System.config({
   //map tells the System loader where to look for things
   map: {
     app: "./src",
-    '@angular': 'https://npmcdn.com/@angular',
-    'zone-js': 'https://npmcdn.com/zone.js@0.6.17',
-    'rxjs': 'https://npmcdn.com/rxjs@5.0.0-beta.11',
-    'baqend': 'https://baqend.global.ssl.fastly.net/js-sdk/2.2.3'
+    '@angular': 'https://unpkg.com/@angular',
+    'zone-js': 'https://unpkg.com/zone.js@0.6.17',
+    'rxjs': 'https://unpkg.com/rxjs@5.0.0-beta.11',
+    'baqend': 'https://baqend.global.ssl.fastly.net/js-sdk/2.2.2'
   },
   //packages defines our app package
   packages: {

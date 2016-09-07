@@ -1,7 +1,5 @@
-import {Component, NgModule} from '@angular/core';
-import {db} from 'baqend';
-import { BrowserModule  } from '@angular/platform-browser';
-import { FormsModule }   from '@angular/forms';
+import { Component } from '@angular/core';
+import { db } from 'baqend';
 
 @Component({
   selector: 'app',
