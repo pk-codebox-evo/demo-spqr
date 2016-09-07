@@ -27,11 +27,11 @@ var db:baqend = bq;
     <div class="container">
       <h3>{{ talk?.title }}</h3>
       
-      <form>
+      <form #questionForm="ngForm" *ngIf="!isSpeaker" (ngSubmit)="ask(questionForm.value)">
         <div class="input-group">
-          <input type="text" name="question" required class="form-control" placeholder="Ask a Question?">
+          <input type="text" ngModel name="question" required class="form-control" placeholder="Ask a Question?">
           <span class="input-group-btn">
-            <button type="submit" class="btn btn-default">Ask</button>
+            <button type="submit" [disabled]="!questionForm.valid" class="btn btn-default">Ask</button>
           </span>    
         </div>  
       </form>
@@ -40,7 +40,7 @@ var db:baqend = bq;
         <li *ngFor="let question of questions" class="list-group-item">
           <div class="list-group-item-heading">
             <span class="badge">{{ question.votes }}</span>
-            <div class="action-btn glyphicon glyphicon-thumbs-up"></div>
+            <div (click)="upVote(question)" class="action-btn glyphicon glyphicon-thumbs-up"></div>
           </div>
           <div class="list-group-item-text">
             {{ question.question }}
@@ -69,11 +69,20 @@ export class App implements OnInit {
   }
 
   ask(values) {
-
+    let question = new db.Question();
+    question.question = values.question;
+    question.date = new Date();
+    question.creator = 'annonymous';
+    question.votes = 1;
+    question.talk = this.talk;
+    question.save();
+    this.questions.push(question);
   }
 
-  upVote(values) {
-
+  upVote(question) {
+    question.optimisticSave(() => {
+      question.votes += 1;
+    })
   }
 
   get isSpeaker() {
