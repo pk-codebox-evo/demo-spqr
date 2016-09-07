@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { db } from 'baqend';
+import {Component, OnInit} from '@angular/core';
+import {db as bq, baqend} from 'baqend';
+var db:baqend = bq;
 
 @Component({
   selector: 'app',
@@ -24,28 +25,55 @@ import { db } from 'baqend';
   `],
   template: `
     <div class="container">
-      <h3>Title</h3>
+      <h3>{{ talk?.title }}</h3>
+      
+      <form>
+        <div class="input-group">
+          <input type="text" name="question" required class="form-control" placeholder="Ask a Question?">
+          <span class="input-group-btn">
+            <button type="submit" class="btn btn-default">Ask</button>
+          </span>    
+        </div>  
+      </form>
 
-      <ul class="list-group">
-        <li class="list-group-item">
+      <ul *ngIf="questions" class="list-group">
+        <li *ngFor="let question of questions" class="list-group-item">
           <div class="list-group-item-heading">
-            <span class="badge">42</span>
+            <span class="badge">{{ question.votes }}</span>
+            <div class="action-btn glyphicon glyphicon-thumbs-up"></div>
           </div>
           <div class="list-group-item-text">
-            This is the question
+            {{ question.question }}
           </div>
         </li>
       </ul>
     </div>
   `
 })
-export class App {
+export class App implements OnInit {
   public talk;
   public questions = [];
 
   constructor() {}
 
   ngOnInit() {
+    let id = 'codetalks';
+    db.Talk.load(id, { local: true }).then(talk => {
+      this.talk = talk;
+      return db.Question.find()
+          .equal('talk', talk)
+          .notEqual('state', 'answered')
+          .descending('votes')
+          .resultList()
+    }).then(questions => this.questions = questions);
+  }
+
+  ask(values) {
+
+  }
+
+  upVote(values) {
+
   }
 
   get isSpeaker() {
