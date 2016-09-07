@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {db, baqend} from 'baqend';
+import {StorageService} from "./services/storage.service";
 var db:baqend = db;
 
 @Component({
@@ -41,6 +42,7 @@ var db:baqend = db;
           <div class="list-group-item-heading">
             <span class="badge">{{ question.votes }}</span>
             <div (click)="upVote(question)" class="action-btn glyphicon glyphicon-thumbs-up"></div>
+            <h6>{{question.creator}} - <small>{{question.date}}</small></h6>
           </div>
           <div class="list-group-item-text">
             {{ question.question }}
@@ -54,7 +56,7 @@ export class App implements OnInit {
   public talk;
   public questions = [];
 
-  constructor() {}
+  constructor(private storageService: StorageService) {}
 
   ngOnInit() {
     let id = 'solutions';
@@ -81,7 +83,13 @@ export class App implements OnInit {
 
   upVote(question) {
     question.optimisticSave(() => {
-      question.votes += 1;
+      if (question.voters.has(this.storageService.token)) {
+        question.votes -= 1;
+        question.voters.delete(this.storageService.token);
+      } else {
+        question.votes += 1;
+        question.voters.add(this.storageService.token);
+      }
     })
   }
 
