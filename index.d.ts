@@ -7,6 +7,12 @@ declare module "baqend" {
     Question: binding.EntityFactory<model.Question>;
   }
 
+  namespace query {
+    interface Stream<T> {
+      on(type:string, callback:(event:{data:T, operation:string, initial:boolean}) => any):any;
+    }
+  }
+
   namespace model {
     interface User extends binding.Entity {
       username: string;

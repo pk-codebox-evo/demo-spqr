@@ -15,6 +15,6 @@ import {TalkComponent} from "./talk/talk.component";
     declarations: [App, OrderVotesPipe, TalkComponent ,TalksComponent, LoginComponent, LogoutComponent, CollapseDirective],
     imports: [BrowserModule, FormsModule, routing],
     providers: [StorageService],
-    bootstrap: [App],
+    bootstrap: [App]
 })
 export class AppModule {}

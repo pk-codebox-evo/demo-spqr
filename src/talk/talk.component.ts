@@ -2,7 +2,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StorageService} from '../services/storage.service';
-import {db as bq, baqend} from 'baqend';
+import {db as bq, baqend} from 'baqend/streaming';
 var db: baqend = bq;
 
 @Component({
@@ -69,10 +69,20 @@ export class TalkComponent implements OnInit {
             return db.Question.find()
                 .equal('talk', talk)
                 .notEqual('state', 'answered')
-                .descending('votes')
-                .resultList()
-        }).then((questions) => {
-            this.questions = questions;
+                .stream({operations: 'any'});
+        }).then(stream => {
+            stream.subscribe((event) => {
+                var question = event.data;
+                let index = this.questions.indexOf(question);
+
+                if (event.matchType == 'add' || event.initial) {
+                    if (index == -1)
+                        this.questions.push(question);
+                } else if (event.matchType == 'remove') {
+                    if (index != -1)
+                        this.questions.splice(index, 1);
+                }
+            });
         });
     }
 

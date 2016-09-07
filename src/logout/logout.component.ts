@@ -1,7 +1,7 @@
 //our root app component
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
-import {db} from 'baqend';
+import {db} from 'baqend/streaming';
 
 @Component({
   template: ''
