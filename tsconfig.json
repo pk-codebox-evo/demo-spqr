@@ -7,7 +7,7 @@
     "sourceMap": true,
     "lib": [
       "dom",
-      "es6"
+      "es2015"
     ]
   },
   "compileOnSave": false,
