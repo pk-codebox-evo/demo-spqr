@@ -1,6 +1,8 @@
+import {Injectable} from "@angular/core";
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+@Injectable()
 export class StorageService {
 
     private _token:string;
