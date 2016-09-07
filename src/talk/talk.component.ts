@@ -71,10 +71,20 @@ export class TalkComponent implements OnInit {
             return db.Question.find()
                 .equal('talk', talk)
                 .notEqual('state', 'answered')
-                .descending('votes')
-                .resultList()
-        }).then((questions) => {
-            this.questions = questions;
+                .stream(true)
+        }).then(stream => {
+            stream.on('all', (event) => {
+                var question = event.data;
+                let index = this.questions.indexOf(question);
+
+                if (event.operation == 'insert' || event.initial) {
+                    if (index == -1)
+                        this.questions.push(question);
+                } else if (event.operation == 'delete' || event.operation == 'update' && question.state == 'answered') {
+                    if (index != -1)
+                        this.questions.splice(index, 1);
+                }
+            });
         });
     }
 
