@@ -25,13 +25,17 @@ import {db} from 'baqend';
 })
 export class LoginComponent {
   
-  constructor() {}
+  constructor(private router:Router) {}
   
   register(values) {
-    db.User.register(values.username, values.password)
+    db.User.register(values.username, values.password).then(() => {
+      this.router.navigate(['/talks']);
+    })
   }
   
   login(values) {
-    db.User.login(values.username, values.password)
+    db.User.login(values.username, values.password).then(() => {
+      this.router.navigate(['/talks']);
+    })
   }
 }

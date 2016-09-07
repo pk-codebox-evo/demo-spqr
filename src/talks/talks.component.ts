@@ -24,7 +24,7 @@ var db:baqend = bq;
       </form>  
       
       <ul *ngFor="let talk of talks" class="nav nav-pills nav-stacked">
-        <li><a>{{talk.title}}</a></li>
+        <li><a routerLink="/talk/{{talk.key}}">{{talk.title}}</a></li>
       </ul>
     </div>
   `

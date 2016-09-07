@@ -1,5 +1,6 @@
 //our root app component
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {StorageService} from '../services/storage.service';
 import {db as bq, baqend} from 'baqend';
 var db: baqend = bq;
@@ -59,10 +60,10 @@ export class TalkComponent implements OnInit {
     public talk;
     public questions = [];
 
-    constructor(private storageService: StorageService) {}
+    constructor(private storageService: StorageService, private route: ActivatedRoute) {}
 
     ngOnInit() {
-        let id = 'angular2';
+        let id = this.route.snapshot.params['id'];
         db.Talk.load(id, {local: true}).then((talk) => {
             this.talk = talk;
             return db.Question.find()
