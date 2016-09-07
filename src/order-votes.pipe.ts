@@ -1,3 +1,9 @@
+import {Pipe} from "@angular/core";
+
+@Pipe({
+    name: "orderVotes",
+    pure: false
+})
 export class OrderVotesPipe {
     transform(questions: Array<any>, args: string): Array<any> {
         if (questions) {
