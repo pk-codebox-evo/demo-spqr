@@ -9,9 +9,9 @@ System.config({
   map: {
     app: "./src",
     '@angular': 'https://unpkg.com/@angular',
-    'zone-js': 'https://unpkg.com/zone.js@0.6.17',
-    'rxjs': 'https://unpkg.com/rxjs@5.0.0-beta.11',
-    'baqend': 'https://baqend.global.ssl.fastly.net/js-sdk/2.2.2'
+    'zone-js': 'https://unpkg.com/zone.js@0.6.25',
+    'rxjs': 'https://unpkg.com/rxjs@5.0.0-beta.12',
+    'baqend': 'https://unpkg.com/baqend@2.3.0'
   },
   //packages defines our app package
   packages: {
@@ -52,7 +52,7 @@ System.config({
       defaultExtension: 'js'
     },
     'baqend': {
-      main: 'baqend.js',
+      main: 'dist/baqend.js',
       defaultExtension: 'js'
     },
     rxjs: {
